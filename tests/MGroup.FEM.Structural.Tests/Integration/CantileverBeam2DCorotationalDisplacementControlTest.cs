@@ -20,7 +20,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 		{
 			var model = CantileverBeam2DCorotationalExample.CreateModel();
 			var log = SolveModel(model);
-			Assert.Equal(CantileverBeam2DCorotationalExample.expected_solution_node3_TranslationX, log.DOFValues[watchDofs[0].node, watchDofs[0].dof], precision: 8);
+			Assert.Equal(CantileverBeam2DCorotationalExample.expected_solution_node3_TranslationX, log.DOFValues[watchDofs[0].node, watchDofs[0].dof], precision: 5);
 		}
 
 		private static DOFSLog SolveModel(Model model)
