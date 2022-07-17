@@ -17,7 +17,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 	{
 		private static List<(INode node, IDofType dof)> watchDofs = new List<(INode node, IDofType dof)>();
 		[Fact]
-		private static void RunTest()
+		public static void RunTest()
 		{
 			var model = MockStructuralModel.CreateModel();
 			var log = SolveModel(model);
