@@ -31,8 +31,7 @@
     <Folder Include="ExampleModels\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\FEM\src\MGroup.FEM.Thermal\MGroup.FEM.Thermal.csproj" />
-    <ProjectReference Include="..\..\src\NumericalAnalyzers\src\MGroup.NumericalAnalyzers.Discretization\MGroup.NumericalAnalyzers.Discretization.csproj" />
-    <ProjectReference Include="..\..\src\Solvers\src\MGroup.Solvers\MGroup.Solvers.csproj" />
+    <ProjectReference Include="..\..\..\NumericalAnalyzers\src\MGroup.NumericalAnalyzers.Discretization\MGroup.NumericalAnalyzers.Discretization.csproj" />
+    <ProjectReference Include="..\..\..\NumericalAnalyzers\src\MGroup.NumericalAnalyzers\MGroup.NumericalAnalyzers.csproj" />
   </ItemGroup>
 </Project>
