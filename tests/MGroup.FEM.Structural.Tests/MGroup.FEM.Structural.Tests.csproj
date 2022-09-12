@@ -13,6 +13,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="MGroup.Environments" Version="0.2.0-unstable.8" />
     <PackageReference Include="MGroup.FEM.Structural" Version="0.2.0-unstable.33" />
     <PackageReference Include="MGroup.Solvers" Version="0.2.0-unstable.6" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
