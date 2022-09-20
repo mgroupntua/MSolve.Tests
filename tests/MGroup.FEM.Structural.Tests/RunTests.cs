@@ -11,7 +11,7 @@ namespace MGroup.FEM.Structural.Tests
     {
         static void Main(string[] args)
         {
-            NewmarkDynamicAnalysisTest.RunTest();
+            CentralDifferencesTest.RunTest();
             Console.ReadLine();
         }
     }
