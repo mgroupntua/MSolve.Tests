@@ -12,7 +12,7 @@ namespace MGroup.FEM.Structural.Tests
         static void Main(string[] args)
         {
             CentralDifferencesTest.RunTest();
-            Console.ReadLine();
+            Console.ReadLine();//
         }
     }
 }
