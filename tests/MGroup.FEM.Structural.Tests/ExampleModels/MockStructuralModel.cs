@@ -14,6 +14,9 @@ namespace MGroup.FEM.Structural.Tests.ExampleModels
 		public static readonly double expected_solution_node0_TranslationX = 2.2840249264795207;
 		public static readonly double expected_solution_node0_TranslationY = 2.4351921891904156;
 
+		public static readonly double expected_solution_node0_TranslationX_Explicit = 2.04;
+		public static readonly double expected_solution_node0_TranslationY_Explicit = 2.54;
+
 		public static Model CreateModel()
 		{
 			var model = new Model();

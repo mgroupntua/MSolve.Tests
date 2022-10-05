@@ -22,8 +22,8 @@ namespace MGroup.FEM.Structural.Tests.Integration
 			var model = MockStructuralModel.CreateModel();
 			var log = SolveModel(model);
 
-			Assert.Equal(MockStructuralModel.expected_solution_node0_TranslationX, log.DOFValues[watchDofs[0].node, watchDofs[0].dof], precision: 8);
-			Assert.Equal(MockStructuralModel.expected_solution_node0_TranslationY, log.DOFValues[watchDofs[1].node, watchDofs[1].dof], precision: 8);
+			Assert.Equal(MockStructuralModel.expected_solution_node0_TranslationX_Explicit, log.DOFValues[watchDofs[0].node, watchDofs[0].dof], precision: 2);
+			Assert.Equal(MockStructuralModel.expected_solution_node0_TranslationY_Explicit, log.DOFValues[watchDofs[1].node, watchDofs[1].dof], precision: 2);
 		}
 
 		private static DOFSLog SolveModel(Model model)
