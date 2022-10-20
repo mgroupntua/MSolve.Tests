@@ -10,11 +10,20 @@ using MGroup.MSolve.Solution;
 using MGroup.MSolve.Solution.LinearSystem;
 using MGroup.MSolve.AnalysisWorkflow.Logging;
 using MGroup.MSolve.Solution.AlgebraicModel;
+using MGroup.MSolve.DataStructures;
+using MGroup.MSolve.Constitutive;
 
 namespace MGroup.NumericalAnalyzers.Dynamic
 {
-	public class NewmarkDynamicAnalyzer : INonLinearParentAnalyzer
+	public class NewmarkDynamicAnalyzer : INonLinearParentAnalyzer, IStepwiseAnalyzer
 	{
+		private const string TIME = TransientLiterals.TIME;
+		private const string CURRENTTIMESTEP = "Current timestep";
+		private const string CURRENTSOLUTION = "Current solution";
+		private const string PREVIOUSSOLUTION = "Previous solution";
+		private const string FIRSTORDERSOLUTION = "First order derivative of solution";
+		private const string SECONDORDERSOLUTION = "Second order derivative of solution";
+
 		/// <summary>
 		/// This class makes the appropriate arrangements for the solution of linear dynamic equations
 		/// according to implicit Newmark method
@@ -63,6 +72,9 @@ namespace MGroup.NumericalAnalyzers.Dynamic
 		private IGlobalVector secondOrderDerivativeOfSolution;
 		private IGlobalVector secondOrderDerivativeOfSolutionForRhs;
 		private IGlobalVector secondOrderDerivativeComponentOfRhs;
+		private int currentStep;
+		private DateTime start, end;
+		private GenericAnalyzerState currentState;
 
 		/// <summary>
 		/// Creates an instance that uses a specific problem type and an appropriate child analyzer for the construction of the system of equations arising from the actual physical problem
@@ -76,7 +88,7 @@ namespace MGroup.NumericalAnalyzers.Dynamic
 		/// <param name="alpha">Instance of parameter "alpha" of the method that will be initialized</param>
 		/// <param name="delta">Instance of parameter "delta" of the method that will be initialized</param>
 		private NewmarkDynamicAnalyzer(IModel model, IAlgebraicModel algebraicModel, ISolver solver, ITransientAnalysisProvider provider,
-			IChildAnalyzer childAnalyzer, double timeStep, double totalTime, double alpha, double delta)
+			IChildAnalyzer childAnalyzer, double timeStep, double totalTime, double alpha, double delta, int currentStep)
 		{
 			this.model = model;
 			this.algebraicModel = algebraicModel;
@@ -87,6 +99,7 @@ namespace MGroup.NumericalAnalyzers.Dynamic
 			this.gamma = delta;
 			this.timeStep = timeStep;
 			this.totalTime = totalTime;
+			this.currentStep = currentStep;
 			this.ChildAnalyzer.ParentAnalyzer = this;
 
 			/// <summary>
@@ -108,6 +121,34 @@ namespace MGroup.NumericalAnalyzers.Dynamic
 		public ImplicitIntegrationAnalyzerLog ResultStorage { get; set; }
 
 		public IChildAnalyzer ChildAnalyzer { get; }
+
+		public int CurrentStep { get => currentStep; }
+
+		public int Steps { get => (int)(totalTime / timeStep); }
+		GenericAnalyzerState IAnalyzer.CurrentState
+		{
+			get => currentState;
+			set
+			{
+				currentState = value;
+				currentStep = (int)currentState.StateValues[CURRENTTIMESTEP];
+				currentStep = (int)currentState.StateValues[CURRENTTIMESTEP];
+				currentState.StateVectors[CURRENTSOLUTION].CheckForCompatibility = false;
+				currentState.StateVectors[PREVIOUSSOLUTION].CheckForCompatibility = false;
+				currentState.StateVectors[FIRSTORDERSOLUTION].CheckForCompatibility = false;
+				currentState.StateVectors[SECONDORDERSOLUTION].CheckForCompatibility = false;
+
+				solution.CopyFrom(currentState.StateVectors[CURRENTSOLUTION]);
+				solutionOfPreviousStep.CopyFrom(currentState.StateVectors[PREVIOUSSOLUTION]);
+				firstOrderDerivativeOfSolution.CopyFrom(currentState.StateVectors[FIRSTORDERSOLUTION]);
+				secondOrderDerivativeOfSolution.CopyFrom(currentState.StateVectors[SECONDORDERSOLUTION]);
+
+				currentState.StateVectors[CURRENTSOLUTION].CheckForCompatibility = true;
+				currentState.StateVectors[PREVIOUSSOLUTION].CheckForCompatibility = true;
+				currentState.StateVectors[FIRSTORDERSOLUTION].CheckForCompatibility = true;
+				currentState.StateVectors[SECONDORDERSOLUTION].CheckForCompatibility = true;
+			}
+		}
 
 		/// <summary>
 		/// Makes the proper solver-specific initializations before the solution of the linear system of equations. This method MUST be called before the actual solution of the aforementioned system
@@ -162,29 +203,33 @@ namespace MGroup.NumericalAnalyzers.Dynamic
 			ChildAnalyzer.Initialize(isFirstAnalysis);
 		}
 
+		private void SolveCurrentTimestep()
+		{
+			Debug.WriteLine("Newmark step: {0}", currentStep);
+
+			AddExternalVelocitiesAndAccelerations(currentStep * timeStep);
+			IGlobalVector rhsVector = provider.GetRhs(currentStep * timeStep);
+			solver.LinearSystem.RhsVector = rhsVector;
+
+			InitializeRhs();
+			CalculateRhsImplicit();
+
+			start = DateTime.Now;
+			ChildAnalyzer.Initialize(false);
+			ChildAnalyzer.Solve();
+			end = DateTime.Now;
+			Debug.WriteLine("Newmark elapsed time: {0}", end - start);
+		}
+
 		/// <summary>
 		/// Solves the linear system of equations by calling the corresponding method of the specific solver attached during construction of the current instance
 		/// </summary>
 		public void Solve()
 		{
-			int numTimeSteps = (int)(totalTime / timeStep);
-			for (int i = 0; i < numTimeSteps; ++i)
+			for (int i = 0; i < Steps; ++i)
 			{
-				Debug.WriteLine("Newmark step: {0}", i);
-
-				AddExternalVelocitiesAndAccelerations(i * timeStep);
-				IGlobalVector rhsVector = provider.GetRhs(i * timeStep);
-				solver.LinearSystem.RhsVector = rhsVector; //TODOGoat: Perhaps the provider should set the rhs vector, like it does for the matrix. Either way the provider does this as a side effect
-
-				InitializeRhs();
-				CalculateRhsImplicit();
-
-				DateTime start = DateTime.Now;
-				ChildAnalyzer.Solve();
-				DateTime end = DateTime.Now;
-
-				UpdateVelocityAndAcceleration();
-				UpdateResultStorages(start, end);
+				SolveCurrentTimestep();
+				AdvanceStep();
 			}
 		}
 
@@ -278,6 +323,45 @@ namespace MGroup.NumericalAnalyzers.Dynamic
 			firstOrderDerivativeOfSolution.AxpyIntoThis(secondOrderDerivativeOfSolutionOfPreviousStep, a6);
 			firstOrderDerivativeOfSolution.AxpyIntoThis(secondOrderDerivativeOfSolution, a7);
 		}
+		GenericAnalyzerState CreateState()
+		{
+			currentState = new GenericAnalyzerState(this,
+				new[]
+				{
+					(CURRENTSOLUTION, solution),
+					(PREVIOUSSOLUTION, solutionOfPreviousStep),
+					(FIRSTORDERSOLUTION, firstOrderDerivativeOfSolution),
+					(SECONDORDERSOLUTION, secondOrderDerivativeOfSolution),
+				},
+				new[]
+				{
+					(TIME, (double)currentStep * (double) timeStep),
+					(CURRENTTIMESTEP, (double)currentStep),
+				});
+
+			return currentState;
+		}
+
+		IHaveState ICreateState.CreateState() => CreateState();
+		GenericAnalyzerState IAnalyzer.CreateState() => CreateState();
+
+		/// <summary>
+		/// Solves the linear system of equations of the current timestep
+		/// </summary>
+		void IStepwiseAnalyzer.Solve()
+		{
+			SolveCurrentTimestep();
+		}
+
+		public void AdvanceStep()
+		{
+			Debug.WriteLine("Advancing step");
+
+			UpdateVelocityAndAcceleration();
+			UpdateResultStorages(start, end);
+
+			currentStep++;
+		}
 
 		public class Builder
 		{
@@ -290,15 +374,17 @@ namespace MGroup.NumericalAnalyzers.Dynamic
 			private readonly ITransientAnalysisProvider provider;
 			private double beta = 0.25;
 			private double gamma = 0.5;
+			private int currentStep = 0;
 
 			public Builder(IModel model, IAlgebraicModel algebraicModel, ISolver solver, ITransientAnalysisProvider provider,
-				IChildAnalyzer childAnalyzer, double timeStep, double totalTime)
+				IChildAnalyzer childAnalyzer, double timeStep, double totalTime, int currentStep = 0)
 			{
 				this.model = model;
 				this.algebraicModel = algebraicModel;
 				this.solver = solver;
 				this.provider = provider;
 				this.childAnalyzer = childAnalyzer;
+				this.currentStep = currentStep;
 
 				this.timeStep = timeStep;
 				this.totalTime = totalTime;
@@ -383,7 +469,7 @@ namespace MGroup.NumericalAnalyzers.Dynamic
 			}
 
 			public NewmarkDynamicAnalyzer Build()
-				=> new NewmarkDynamicAnalyzer(model, algebraicModel, solver, provider, childAnalyzer, timeStep, totalTime, beta, gamma);
+				=> new NewmarkDynamicAnalyzer(model, algebraicModel, solver, provider, childAnalyzer, timeStep, totalTime, beta, gamma, currentStep);
 		}
 	}
 }
