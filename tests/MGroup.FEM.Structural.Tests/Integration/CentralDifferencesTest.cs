@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MGroup.NumericalAnalyzers.Dynamic;
 using MGroup.MSolve.Discretization.Entities;
 using MGroup.NumericalAnalyzers.Logging;
@@ -13,7 +13,7 @@ using MGroup.FEM.Structural.Tests.ExampleModels;
 namespace MGroup.FEM.Structural.Tests.Integration
 {
 
-	public static class NewmarkDynamicAnalysisTest
+	public static class CentralDifferencesTest
 	{
 		private static List<(INode node, IDofType dof)> watchDofs = new List<(INode node, IDofType dof)>();
 		[Fact]
@@ -22,8 +22,8 @@ namespace MGroup.FEM.Structural.Tests.Integration
 			var model = MockStructuralModel.CreateModel();
 			var log = SolveModel(model);
 
-			Assert.Equal(MockStructuralModel.expected_solution_node0_TranslationX, log.DOFValues[watchDofs[0].node, watchDofs[0].dof], precision: 8);
-			Assert.Equal(MockStructuralModel.expected_solution_node0_TranslationY, log.DOFValues[watchDofs[1].node, watchDofs[1].dof], precision: 8);
+			Assert.Equal(MockStructuralModel.expected_solution_node0_TranslationX_Explicit, log.DOFValues[watchDofs[0].node, watchDofs[0].dof], precision: 2);
+			Assert.Equal(MockStructuralModel.expected_solution_node0_TranslationY_Explicit, log.DOFValues[watchDofs[1].node, watchDofs[1].dof], precision: 2);
 		}
 
 		private static DOFSLog SolveModel(Model model)
@@ -34,8 +34,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 			var problem = new ProblemStructural(model, algebraicModel, solver);
 
 			var linearAnalyzer = new LinearAnalyzer(algebraicModel, solver, problem);
-			var dynamicAnalyzerBuilder = new NewmarkDynamicAnalyzer.Builder(model, algebraicModel, solver, problem, linearAnalyzer, timeStep: 0.28, totalTime: 3.36);
-			dynamicAnalyzerBuilder.SetNewmarkParametersForConstantAcceleration();
+			var dynamicAnalyzerBuilder = new CentralDifferences.Builder(model, algebraicModel, solver, problem, linearAnalyzer, timeStep: 0.28, totalTime: 3.36);
 			var dynamicAnalyzer = dynamicAnalyzerBuilder.Build();
 
 			watchDofs.Add((model.NodesDictionary[0], StructuralDof.TranslationX));
