@@ -27,7 +27,7 @@ namespace MGroup.FEM.Thermal.Tests.Integration
 			var problem = new ProblemThermal(model, algebraicModel, solver);
 
 			var linearAnalyzer = new LinearAnalyzer(algebraicModel, solver, problem);
-			var dynamicAnalyzerBuilder = new NewmarkDynamicAnalyzer.Builder(model, algebraicModel, solver, problem, linearAnalyzer, timeStep: 0.5, totalTime: 1000);
+			var dynamicAnalyzerBuilder = new NewmarkDynamicAnalyzer.Builder(model, algebraicModel, problem, linearAnalyzer, timeStep: 0.5, totalTime: 1000);
 			dynamicAnalyzerBuilder.SetNewmarkParameters(beta: 0.25, gamma: 0.5, allowConditionallyStable: true);
 			var dynamicAnalyzer = dynamicAnalyzerBuilder.Build();
 
