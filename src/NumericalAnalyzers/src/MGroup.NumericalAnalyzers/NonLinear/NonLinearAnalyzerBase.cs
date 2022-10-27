@@ -16,6 +16,8 @@ namespace MGroup.NumericalAnalyzers.NonLinear
 	/// </summary>
 	public abstract class NonLinearAnalyzerBase : IChildAnalyzer
 	{
+		private const string CURRENTSOLUTION = "Current solution";
+
 		protected readonly int maxIterationsPerIncrement;
 		protected readonly IAlgebraicModel algebraicModel;
 		protected readonly int numIncrements;
@@ -30,6 +32,7 @@ namespace MGroup.NumericalAnalyzers.NonLinear
 		protected IGlobalVector uPlusdu;
 		protected double globalRhsNormInitial;
 		protected INonLinearParentAnalyzer parentAnalyzer = null;
+		private GenericAnalyzerState currentState;
 
 		public NonLinearAnalyzerBase(IAlgebraicModel algebraicModel, ISolver solver, INonLinearProvider provider,
 			INonLinearModelUpdater modelUpdater,
@@ -47,6 +50,8 @@ namespace MGroup.NumericalAnalyzers.NonLinear
 
 		public LinearAnalyzerLogFactory LogFactory { get; set; }
 
+		public IGlobalVector CurrentAnalysisResult { get => u; }
+
 		public IAnalysisWorkflowLog[] Logs { get; set; } = new IAnalysisWorkflowLog[0];
 
 		public TotalDisplacementsPerIterationLog TotalDisplacementsPerIterationLog { get; set; }
@@ -63,18 +68,31 @@ namespace MGroup.NumericalAnalyzers.NonLinear
 
 		public IGlobalVector Responses { get; set; }
 
+		public IGlobalVector CurrentAnalysisLinearSystemRhs { get => solver.LinearSystem.RhsVector; }
+
 		GenericAnalyzerState IAnalyzer.CurrentState
 		{
-			get => CreateState();
+			get => currentState;
 			set
 			{
+				currentState = value;
+				currentState.StateVectors[CURRENTSOLUTION].CheckForCompatibility = false;
+
+				u.CopyFrom(currentState.StateVectors[CURRENTSOLUTION]);
+
+				currentState.StateVectors[CURRENTSOLUTION].CheckForCompatibility = true;
 			}
 		}
 
-		GenericAnalyzerState CreateState() => new GenericAnalyzerState(this, new[]
+		GenericAnalyzerState CreateState()
 		{
-			(String.Empty, (IGlobalVector)null)
-		});
+			currentState = new GenericAnalyzerState(this, new[]
+			{
+				(CURRENTSOLUTION, u),
+			});
+
+			return currentState;
+		}
 
 		IHaveState ICreateState.CreateState() => CreateState();
 		GenericAnalyzerState IAnalyzer.CreateState() => CreateState();
@@ -98,9 +116,7 @@ namespace MGroup.NumericalAnalyzers.NonLinear
 		/// </summary>
 		public void Initialize(bool isFirstAnalysis)
 		{
-			//if (isFirstAnalysis)
-			//	provider.GetProblemDofTypes();
-			InitializeInternalVectors();
+			InitializeInternalVectors(isFirstAnalysis);
 		}
 
 		protected IGlobalVector CalculateInternalRhs(int currentIncrement, int iteration)
@@ -120,6 +136,7 @@ namespace MGroup.NumericalAnalyzers.NonLinear
 				uPlusdu.AddIntoThis(u);
 				uPlusdu.AddIntoThis(du);
 			}
+
 			IGlobalVector internalRhs = modelUpdater.CalculateResponseIntegralVector(uPlusdu);
 			provider.ProcessInternalRhs(uPlusdu, internalRhs);
 
@@ -139,6 +156,7 @@ namespace MGroup.NumericalAnalyzers.NonLinear
 			{
 				solver.LinearSystem.RhsVector.AddIntoThis(rhs);
 			}
+
 			solver.LinearSystem.RhsVector.SubtractIntoThis(internalRhs);
 			return provider.CalculateRhsNorm(solver.LinearSystem.RhsVector);
 		}
@@ -148,13 +166,43 @@ namespace MGroup.NumericalAnalyzers.NonLinear
 			du.Clear();
 		}
 
-		protected virtual void InitializeInternalVectors()
+		protected virtual void InitializeInternalVectors(bool isFirstAnalysis)
 		{
 			rhs = solver.LinearSystem.RhsVector.Copy();
 			rhs.ScaleIntoThis(1 / (double)numIncrements);
-			u = algebraicModel.CreateZeroVector();
-			du = algebraicModel.CreateZeroVector();
-			uPlusdu = algebraicModel.CreateZeroVector();
+			if (u == null)
+			{
+				u = algebraicModel.CreateZeroVector();
+			}
+			else
+			{
+				if (isFirstAnalysis)
+				{
+					u.Clear();
+				}
+			}
+
+			if (du == null)
+			{
+				du = algebraicModel.CreateZeroVector();
+			}
+			else
+			{
+				du.Clear();
+			}
+
+			if (uPlusdu == null)
+			{
+				uPlusdu = algebraicModel.CreateZeroVector();
+			}
+			else
+			{
+				uPlusdu.Clear();
+			}
+
+			//u = algebraicModel.CreateZeroVector();
+			//du = algebraicModel.CreateZeroVector();
+			//uPlusdu = algebraicModel.CreateZeroVector();
 			globalRhsNormInitial = provider.CalculateRhsNorm(solver.LinearSystem.RhsVector);
 		}
 
@@ -164,6 +212,7 @@ namespace MGroup.NumericalAnalyzers.NonLinear
 			{
 				Logs = LogFactory.CreateLogs();
 			}
+
 			if (IncrementalLog != null)
 			{
 				IncrementalLog.Initialize();
