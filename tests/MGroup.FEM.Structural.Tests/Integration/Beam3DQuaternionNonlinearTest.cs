@@ -34,7 +34,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 			var loadControlAnalyzerBuilder = new LoadControlAnalyzer.Builder(model, algebraicModel, solver, problem, numIncrements: 10);
 			loadControlAnalyzerBuilder.ResidualTolerance = 1E-3;
 			var loadControlAnalyzer = loadControlAnalyzerBuilder.Build();
-			var staticAnalyzer = new StaticAnalyzer(model, algebraicModel, solver, problem, loadControlAnalyzer);
+			var staticAnalyzer = new StaticAnalyzer(model, algebraicModel, problem, loadControlAnalyzer);
 
 			watchDofs.Add((model.NodesDictionary[3], StructuralDof.TranslationY));
 			loadControlAnalyzer.LogFactory = new LinearAnalyzerLogFactory(watchDofs, algebraicModel);

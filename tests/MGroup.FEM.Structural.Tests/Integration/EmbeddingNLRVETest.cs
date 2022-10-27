@@ -40,7 +40,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 				NumIterationsForMatrixRebuild = 1
 			};
 			var loadControlAnalyzer = loadControlAnalyzerBuilder.Build();
-			var staticAnalyzer = new StaticAnalyzer(model, algebraicModel, solver, problem, loadControlAnalyzer);
+			var staticAnalyzer = new StaticAnalyzer(model, algebraicModel, problem, loadControlAnalyzer);
 
 			var watchDofs = new List<(INode node, IDofType dof)>();
 			watchDofs.Add((model.NodesDictionary[2], StructuralDof.TranslationX));

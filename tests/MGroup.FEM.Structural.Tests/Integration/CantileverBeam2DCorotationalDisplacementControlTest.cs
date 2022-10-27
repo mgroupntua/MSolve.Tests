@@ -32,7 +32,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 
 			var displacementControlAnalyzerBuilder = new DisplacementControlAnalyzer.Builder(model, algebraicModel, solver, problem, numIncrements: 10);
 			var displacementControlAnalyzer = displacementControlAnalyzerBuilder.Build();
-			var staticAnalyzer = new StaticAnalyzer(model, algebraicModel, solver, problem, displacementControlAnalyzer);
+			var staticAnalyzer = new StaticAnalyzer(model, algebraicModel, problem, displacementControlAnalyzer);
 
 			watchDofs.Add((model.NodesDictionary[3], StructuralDof.TranslationX));
 			displacementControlAnalyzer.LogFactory = new LinearAnalyzerLogFactory(watchDofs, algebraicModel);

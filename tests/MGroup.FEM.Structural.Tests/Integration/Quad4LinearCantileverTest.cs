@@ -39,7 +39,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 			var problem = new ProblemStructural(model, algebraicModel, solver);
 
 			var linearnalyzer = new LinearAnalyzer(algebraicModel, solver, problem);
-			var staticAnalyzer = new StaticAnalyzer(model, algebraicModel, solver, problem, linearnalyzer);
+			var staticAnalyzer = new StaticAnalyzer(model, algebraicModel, problem, linearnalyzer);
 
 			watchDofs.Add((model.NodesDictionary[3], StructuralDof.TranslationX));
 

@@ -110,7 +110,7 @@ namespace MGroup.FEM.Thermal.Tests.Integration
 			var physicsProblem = new ProblemThermal(model, algebraicModel, solver);
 
 			var linearAnalyzer = new LinearAnalyzer(algebraicModel, solver, physicsProblem);
-			var staticAnalyzer = new StaticAnalyzer(model, algebraicModel, solver, physicsProblem, linearAnalyzer);
+			var staticAnalyzer = new StaticAnalyzer(model, algebraicModel, physicsProblem, linearAnalyzer);
 
 			staticAnalyzer.Initialize();
 			staticAnalyzer.Solve();
