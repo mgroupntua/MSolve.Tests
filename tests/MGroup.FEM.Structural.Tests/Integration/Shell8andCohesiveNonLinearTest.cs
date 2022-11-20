@@ -32,14 +32,14 @@ namespace MGroup.FEM.Structural.Tests.Integration
 			var solver = solverFactory.BuildSolver(algebraicModel);
 			var problem = new ProblemStructural(model, algebraicModel, solver);
 
-			var loadControlAnalyzerBuilder = new LoadControlAnalyzer.Builder(model, algebraicModel, solver, problem, numIncrements: 2)
+			var loadControlAnalyzerBuilder = new LoadControlAnalyzer.Builder(algebraicModel, solver, problem, numIncrements: 2)
 			{
 				ResidualTolerance = 1E-8,
 				MaxIterationsPerIncrement = 100,
 				NumIterationsForMatrixRebuild = 1
 			};
 			var loadControlAnalyzer = loadControlAnalyzerBuilder.Build();
-			var staticAnalyzer = new StaticAnalyzer(model, algebraicModel, problem, loadControlAnalyzer);
+			var staticAnalyzer = new StaticAnalyzer(algebraicModel, problem, loadControlAnalyzer);
 
 			watchDofs.Add((model.NodesDictionary[1], StructuralDof.TranslationX));
 			watchDofs.Add((model.NodesDictionary[3], StructuralDof.TranslationY));

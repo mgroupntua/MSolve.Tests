@@ -34,7 +34,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 			var problem = new ProblemStructural(model, algebraicModel, solver);
 
 			var linearAnalyzer = new LinearAnalyzer(algebraicModel, solver, problem);
-			var dynamicAnalyzerBuilder = new NewmarkDynamicAnalyzer.Builder(model, algebraicModel, problem, linearAnalyzer, timeStep: 0.28, totalTime: 3.36);
+			var dynamicAnalyzerBuilder = new NewmarkDynamicAnalyzer.Builder(algebraicModel, problem, linearAnalyzer, timeStep: 0.28, totalTime: 3.36);
 			dynamicAnalyzerBuilder.SetNewmarkParametersForConstantAcceleration();
 			var dynamicAnalyzer = dynamicAnalyzerBuilder.Build();
 

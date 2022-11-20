@@ -30,9 +30,9 @@ namespace MGroup.FEM.Structural.Tests.Integration
 			var solver = solverFactory.BuildSolver(algebraicModel);
 			var problem = new ProblemStructural(model, algebraicModel, solver);
 
-			var displacementControlAnalyzerBuilder = new DisplacementControlAnalyzer.Builder(model, algebraicModel, solver, problem, numIncrements: 10);
+			var displacementControlAnalyzerBuilder = new DisplacementControlAnalyzer.Builder(algebraicModel, solver, problem, numIncrements: 10);
 			var displacementControlAnalyzer = displacementControlAnalyzerBuilder.Build();
-			var staticAnalyzer = new StaticAnalyzer(model, algebraicModel, problem, displacementControlAnalyzer);
+			var staticAnalyzer = new StaticAnalyzer(algebraicModel, problem, displacementControlAnalyzer);
 
 			watchDofs.Add((model.NodesDictionary[3], StructuralDof.TranslationX));
 			displacementControlAnalyzer.LogFactory = new LinearAnalyzerLogFactory(watchDofs, algebraicModel);

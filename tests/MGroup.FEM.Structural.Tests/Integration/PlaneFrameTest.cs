@@ -31,12 +31,12 @@ namespace MGroup.FEM.Structural.Tests.Integration
 			var solver = solverFactory.BuildSolver(algebraicModel);
 			var problem = new ProblemStructural(model, algebraicModel, solver);
 
-			var loadControlAnalyserBuilder = new LoadControlAnalyzer.Builder(model, algebraicModel, solver, problem, numIncrements: 10)
+			var loadControlAnalyserBuilder = new LoadControlAnalyzer.Builder(algebraicModel, solver, problem, numIncrements: 10)
 			{
 				ResidualTolerance = 1E-3
 			};
 			var loadControlAnalyzer = loadControlAnalyserBuilder.Build();
-			var staticAnalyzer = new StaticAnalyzer(model, algebraicModel, problem, loadControlAnalyzer);
+			var staticAnalyzer = new StaticAnalyzer(algebraicModel, problem, loadControlAnalyzer);
 
 			watchDofs.Add((model.NodesDictionary[2], StructuralDof.TranslationX));
 			loadControlAnalyzer.LogFactory = new LinearAnalyzerLogFactory(watchDofs, algebraicModel);
