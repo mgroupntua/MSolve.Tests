@@ -107,7 +107,7 @@ namespace MGroup.FEM.Thermal.Tests.Integration
 			var algebraicModel = solverFactory.BuildAlgebraicModel(model);
 			var solver = solverFactory.BuildSolver(algebraicModel);
 
-			var physicsProblem = new ProblemThermal(model, algebraicModel, solver);
+			var physicsProblem = new ProblemThermal(model, algebraicModel);
 
 			var linearAnalyzer = new LinearAnalyzer(algebraicModel, solver, physicsProblem);
 			var staticAnalyzer = new StaticAnalyzer(algebraicModel, physicsProblem, linearAnalyzer);

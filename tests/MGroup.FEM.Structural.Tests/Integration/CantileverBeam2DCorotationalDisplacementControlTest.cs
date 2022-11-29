@@ -28,7 +28,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 			var solverFactory = new SkylineSolver.Factory();
 			var algebraicModel = solverFactory.BuildAlgebraicModel(model);
 			var solver = solverFactory.BuildSolver(algebraicModel);
-			var problem = new ProblemStructural(model, algebraicModel, solver);
+			var problem = new ProblemStructural(model, algebraicModel);
 
 			var displacementControlAnalyzerBuilder = new DisplacementControlAnalyzer.Builder(algebraicModel, solver, problem, numIncrements: 10);
 			var displacementControlAnalyzer = displacementControlAnalyzerBuilder.Build();

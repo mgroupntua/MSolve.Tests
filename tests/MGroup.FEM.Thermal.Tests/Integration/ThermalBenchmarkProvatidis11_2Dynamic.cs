@@ -24,7 +24,7 @@ namespace MGroup.FEM.Thermal.Tests.Integration
 			var solverFactory = new SkylineSolver.Factory();
 			var algebraicModel = solverFactory.BuildAlgebraicModel(model);
 			var solver = solverFactory.BuildSolver(algebraicModel);
-			var problem = new ProblemThermal(model, algebraicModel, solver);
+			var problem = new ProblemThermal(model, algebraicModel);
 
 			var linearAnalyzer = new LinearAnalyzer(algebraicModel, solver, problem);
 			var dynamicAnalyzerBuilder = new NewmarkDynamicAnalyzer.Builder(algebraicModel, problem, linearAnalyzer, timeStep: 0.5, totalTime: 1000);

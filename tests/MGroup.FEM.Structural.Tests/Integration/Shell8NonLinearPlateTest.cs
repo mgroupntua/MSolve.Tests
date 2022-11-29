@@ -33,7 +33,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 			var solverFactory = new SkylineSolver.Factory();
 			var algebraicModel = solverFactory.BuildAlgebraicModel(model);
 			var solver = solverFactory.BuildSolver(algebraicModel);
-			var problem = new ProblemStructural(model, algebraicModel, solver);
+			var problem = new ProblemStructural(model, algebraicModel);
 
 			var loadControlAnalyzerBuilder = new LoadControlAnalyzer.Builder(algebraicModel, solver, problem, numIncrements: 2);
 			loadControlAnalyzerBuilder.ResidualTolerance = 1E-8;

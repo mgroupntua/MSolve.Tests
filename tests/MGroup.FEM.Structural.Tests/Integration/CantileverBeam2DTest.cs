@@ -23,7 +23,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 			var solverFactory = new SkylineSolver.Factory();
 			var algebraicModel = solverFactory.BuildAlgebraicModel(model);
 			ISolver solver = solverFactory.BuildSolver(algebraicModel);
-			var problem = new ProblemStructural(model, algebraicModel, solver);
+			var problem = new ProblemStructural(model, algebraicModel);
 
 			var linearAnalyzer = new LinearAnalyzer(algebraicModel, solver, problem);
 			var staticAnalyzer = new StaticAnalyzer(algebraicModel, problem, linearAnalyzer);
