@@ -6,6 +6,8 @@ using Moq;
 using MGroup.Constitutive.Structural;
 using MGroup.MSolve.Discretization.Dofs;
 using MGroup.Constitutive.Structural.BoundaryConditions;
+using MGroup.MSolve.AnalysisWorkflow.Transient;
+using MGroup.Constitutive.Structural.InitialConditions;
 
 namespace MGroup.FEM.Structural.Tests.ExampleModels
 {
@@ -58,14 +60,6 @@ namespace MGroup.FEM.Structural.Tests.ExampleModels
 			model.SubdomainsDictionary[0].Elements.Add(e.Object);
 
 			model.BoundaryConditions.Add(new StructuralBoundaryConditionSet(null, new[] { new NodalLoad(n, StructuralDof.TranslationY, 10d) }));
-			model.BoundaryConditions.Add(new StructuralTransientBoundaryConditionSet
-			(
-				new[] { new StructuralBoundaryConditionSet(
-					new[] { new NodalAcceleration(n, StructuralDof.TranslationY, 10d) },
-					null
-				)},
-				(t, amount) => t == 0d ? amount : 0d
-			));
 
 			return model;
 		}
