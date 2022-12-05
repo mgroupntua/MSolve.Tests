@@ -37,7 +37,7 @@ namespace MGroup.FEM.ConvectionDiffusion.Tests.Integration
             var problem = new ProblemConvectionDiffusion(model, algebraicModel);
 
             var linearAnalyzer = new LinearAnalyzer(algebraicModel, solver, problem);
-
+            
             var dynamicAnalyzerBuilder = new BDFDynamicAnalyzer.Builder(algebraicModel, problem, linearAnalyzer, timeStep: 0.1, totalTime: 10, bdfOrder: 5);
             var dynamicAnalyzer = dynamicAnalyzerBuilder.Build();
 
