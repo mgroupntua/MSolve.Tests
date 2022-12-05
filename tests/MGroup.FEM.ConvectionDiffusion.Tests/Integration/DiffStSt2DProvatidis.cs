@@ -28,18 +28,15 @@ namespace MGroup.FEM.ConvectionDiffusion.Tests.Integration
 
             var linearAnalyzer = new LinearAnalyzer(algebraicModel, solver, problem);
 
-            var dynamicAnalyzerBuilder = new NewmarkDynamicAnalyzer.Builder(algebraicModel, problem, linearAnalyzer, timeStep: 0.5, totalTime: 1000);
-            dynamicAnalyzerBuilder.SetNewmarkParameters(beta: 0.25, gamma: 0.5, allowConditionallyStable: true);
-            var dynamicAnalyzer = dynamicAnalyzerBuilder.Build();
-
+            var analyzer = new StaticAnalyzer(algebraicModel, problem, linearAnalyzer);
             var watchDofs = new List<(INode node, IDofType dof)>()
             {
                 (model.NodesDictionary[5], ConvectionDiffusionDof.UnknownVariable),
             };
             linearAnalyzer.LogFactory = new LinearAnalyzerLogFactory(watchDofs, algebraicModel);
 
-            dynamicAnalyzer.Initialize();
-            dynamicAnalyzer.Solve();
+            analyzer.Initialize();
+            analyzer.Solve();
 
             DOFSLog log = (DOFSLog)linearAnalyzer.Logs[0];
             var numericalSolution = new double[watchDofs.Count];

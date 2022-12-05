@@ -28,8 +28,7 @@ namespace MGroup.FEM.ConvectionDiffusion.Tests.Integration
 
             var linearAnalyzer = new LinearAnalyzer(algebraicModel, solver, problem);
 
-            var dynamicAnalyzerBuilder = new NewmarkDynamicAnalyzer.Builder(algebraicModel, problem, linearAnalyzer, timeStep: 0.5, totalTime: 1000);
-            dynamicAnalyzerBuilder.SetNewmarkParameters(beta: 0.25, gamma: 0.5, allowConditionallyStable: true);
+            var dynamicAnalyzerBuilder = new BDFDynamicAnalyzer.Builder(algebraicModel, problem, linearAnalyzer, timeStep: 0.5, totalTime: 1000, bdfOrder: 5);
             var analyzer = dynamicAnalyzerBuilder.Build();
 
             var watchDofs = new List<(INode node, IDofType dof)>()

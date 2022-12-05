@@ -40,11 +40,6 @@ namespace ConvectionDiffusionTest
 
             var elementNodes = new IReadOnlyList<Node>[]
             {
-/*                new List<Node>() { nodes[0], nodes[1], nodes[3], nodes[4] },
-                new List<Node>() { nodes[1], nodes[2], nodes[4], nodes[5] },
-                new List<Node>() { nodes[3], nodes[4], nodes[6], nodes[7] },
-                new List<Node>() { nodes[4], nodes[5], nodes[7], nodes[8] }*/
-
                 new List<Node>() { nodes[0], nodes[1], nodes[4], nodes[3] },
                 new List<Node>() { nodes[1], nodes[2], nodes[5], nodes[4] },
                 new List<Node>() { nodes[3], nodes[4], nodes[7], nodes[6] },
