@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MGroup.FEM.Structural.Tests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MGroup.FEM.Thermal.Tests", "tests\MGroup.FEM.Thermal.Tests\MGroup.FEM.Thermal.Tests.csproj", "{F80217C6-82D6-41E0-A368-9C2B2C66FC2B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MGroup.FEM.ConvectionDiffusion.Tests", "tests\MGroup.FEM.ConvectionDiffusion.Tests\MGroup.FEM.ConvectionDiffusion.Tests.csproj", "{B567D9CE-B18B-445F-ACEB-D5EE05AAAD66}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{F80217C6-82D6-41E0-A368-9C2B2C66FC2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F80217C6-82D6-41E0-A368-9C2B2C66FC2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F80217C6-82D6-41E0-A368-9C2B2C66FC2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B567D9CE-B18B-445F-ACEB-D5EE05AAAD66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B567D9CE-B18B-445F-ACEB-D5EE05AAAD66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B567D9CE-B18B-445F-ACEB-D5EE05AAAD66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B567D9CE-B18B-445F-ACEB-D5EE05AAAD66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -30,6 +36,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{8D7874EB-E218-4A12-BACE-54D598E8B9C8} = {6B1357FC-4E66-4FE9-A917-75C62FE97659}
 		{F80217C6-82D6-41E0-A368-9C2B2C66FC2B} = {6B1357FC-4E66-4FE9-A917-75C62FE97659}
+		{B567D9CE-B18B-445F-ACEB-D5EE05AAAD66} = {6B1357FC-4E66-4FE9-A917-75C62FE97659}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0BE28300-C191-435C-A4DB-CCC88FA2C812}
