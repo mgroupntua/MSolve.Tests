@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MGroup.MSolve.Discretization.Entities;
 using MGroup.MSolve.Discretization;
 using System.IO;
+using System.Diagnostics;
 
 namespace ConvectionDiffusionTest
 {

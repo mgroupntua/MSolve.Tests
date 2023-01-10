@@ -5,6 +5,7 @@ using MGroup.MSolve.Discretization.Entities;
 using MGroup.MSolve.Discretization;
 using System.Collections.Generic;
 using System;
+using System.Diagnostics;
 
 namespace ConvectionDiffusionTest
 {
