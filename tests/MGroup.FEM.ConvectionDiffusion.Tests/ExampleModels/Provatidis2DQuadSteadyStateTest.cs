@@ -68,7 +68,7 @@ namespace ConvectionDiffusionTest
             model.BoundaryConditions.Add(new ConvectionDiffusionBoundaryConditionSet(
                 new[]
                 {
-          
+
                     new NodalUnknownVariable(nodes[0], ConvectionDiffusionDof.UnknownVariable, 100d),
                     new NodalUnknownVariable(nodes[3], ConvectionDiffusionDof.UnknownVariable, 100d),
                     new NodalUnknownVariable(nodes[6], ConvectionDiffusionDof.UnknownVariable, 100d)
@@ -88,7 +88,7 @@ namespace ConvectionDiffusionTest
         {
             if (numericalSolution.Length != prescribedSolution.Length)
             {
-                Console.WriteLine("Array Lengths do not match");
+                Debug.WriteLine("Array Lengths do not match");
                 return false;
             }
 
@@ -103,13 +103,13 @@ namespace ConvectionDiffusionTest
             }
             if (isAMatch == true)
             {
-                Console.WriteLine("MSolve Solution matches prescribed solution");
-                Console.WriteLine("Test Passed!");
+                Debug.WriteLine("MSolve Solution matches prescribed solution");
+                Debug.WriteLine("Test Passed!");
             }
             else
             {
-                Console.WriteLine("MSolve Solution does not match prescribed solution");
-                Console.WriteLine("Test Failed!");
+                Debug.WriteLine("MSolve Solution does not match prescribed solution");
+                Debug.WriteLine("Test Failed!");
             }
             return isAMatch;
         }

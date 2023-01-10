@@ -22,7 +22,7 @@ namespace ConvectionDiffusionTest
             {
                 model.NodesDictionary.Add(node.ID, node);
             }
-            
+
             var material = new ConvectionDiffusionProperties(capacityCoeff : 0d, diffusionCoeff : 1d, convectionCoeff : new[] {0d} , dependentSourceCoeff : 0d, independentSourceCoeff : 0d);
 
             var elements = new ConvectionDiffusionRod[]
@@ -41,9 +41,9 @@ namespace ConvectionDiffusionTest
                 new []
                 {
                     new NodalUnknownVariable(nodes[0], ConvectionDiffusionDof.UnknownVariable, 120d),
-                    new NodalUnknownVariable(nodes[2], ConvectionDiffusionDof.UnknownVariable, 50d)     
+                    new NodalUnknownVariable(nodes[2], ConvectionDiffusionDof.UnknownVariable, 50d)
                 },
-                new INodalConvectionDiffusionNeumannBoundaryCondition[] {} 
+                new INodalConvectionDiffusionNeumannBoundaryCondition[] {}
             ));
             return model;
         }
@@ -54,20 +54,20 @@ namespace ConvectionDiffusionTest
         public static bool CheckResults (double numericalSolution)
         {
             var analyticalSolution = rodAnalyticalSolution(0.1);
-            
-            Console.WriteLine("Analytical Solution = " + analyticalSolution);
-            Console.WriteLine("Numerical Solution = " + numericalSolution);
+
+            Debug.WriteLine("Analytical Solution = " + analyticalSolution);
+            Debug.WriteLine("Numerical Solution = " + numericalSolution);
 
             if ( Math.Abs((analyticalSolution - numericalSolution) / analyticalSolution ) <= 1E-6)
             {
-                Console.WriteLine("MSolve solution matches analytical solution.");
-                Console.WriteLine("Test Passed!");
+                Debug.WriteLine("MSolve solution matches analytical solution.");
+                Debug.WriteLine("Test Passed!");
                 return true;
             }
             else
             {
-                Console.WriteLine("MSolve solution does not match analytical solution.");
-                Console.WriteLine("Test Failed!");
+                Debug.WriteLine("MSolve solution does not match analytical solution.");
+                Debug.WriteLine("Test Failed!");
                 return false;
             }
         }

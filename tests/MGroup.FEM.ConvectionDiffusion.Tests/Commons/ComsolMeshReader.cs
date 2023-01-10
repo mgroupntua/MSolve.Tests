@@ -31,67 +31,67 @@ namespace ConvectionDiffusionTest
         {
             NodesDictionary = new Dictionary<int, Node>();
             ElementConnectivity = new Dictionary<int, Tuple<CellType, Node[]>> ();
-            
+
             try
             {
                 using (var sr = new StreamReader(filepath))
                 {
                     ReadingStatus status = ReadingStatus.Unknown;
-                    Console.WriteLine("Reading file {0}", filepath);
+                    Debug.WriteLine("Reading file {0}", filepath);
                     var line = sr.ReadLine();
                     var id = 0;
                     while (line != null)
                     {
-                        //Status update 
+                        //Status update
                         if (line.Equals("# Mesh vertex coordinates"))
                         {//Nodes
                             status = ReadingStatus.FoundNodes;
-                            Console.WriteLine("Status: Found nodes");
+                            Debug.WriteLine("Status: Found nodes");
                         }
                         else if (status == ReadingStatus.FoundNodes)
                         {
                             status = ReadingStatus.ReadingNodes;
-                            Console.WriteLine("Status: Reading nodes");
+                            Debug.WriteLine("Status: Reading nodes");
                         }
                         else if (line.Equals("3 tet # type name"))
                         {//Tet4
                             status = ReadingStatus.FoundTet4;
-                            Console.WriteLine("Status: Found Tet4");
+                            Debug.WriteLine("Status: Found Tet4");
                         }
                         else if (status == ReadingStatus.FoundTet4 && !line.Contains("#") && !line.Equals(""))
                         {
                             status = ReadingStatus.ReadingTet4;
-                            Console.WriteLine("Status: Reading Tet4");
+                            Debug.WriteLine("Status: Reading Tet4");
                         }
                         else if (line.Equals("5 prism # type name"))
                         {//Wedge6
                             status = ReadingStatus.FoundWedge6;
-                            Console.WriteLine("Status: Found Wedge6");
+                            Debug.WriteLine("Status: Found Wedge6");
                         }
                         else if (status == ReadingStatus.FoundWedge6 && !line.Contains("#") && !line.Equals(""))
                         {
                             status = ReadingStatus.ReadingWedge6;
-                            Console.WriteLine("Status: Reading Wedge6");
+                            Debug.WriteLine("Status: Reading Wedge6");
                         }
                         else if (line.Equals("3 hex # type name"))
                         {//Hexa8
                             status = ReadingStatus.FoundHexa8;
-                            Console.WriteLine("Status: Found Hexa8");
+                            Debug.WriteLine("Status: Found Hexa8");
                         }
                         else if (status == ReadingStatus.FoundHexa8 && !line.Contains("#") && !line.Equals(""))
                         {
                             status = ReadingStatus.ReadingHexa8;
-                            Console.WriteLine("Status: Reading Hexa8");
+                            Debug.WriteLine("Status: Reading Hexa8");
                         }
-                        else if (line.Equals("") && 
-                                status != ReadingStatus.Unknown && 
+                        else if (line.Equals("") &&
+                                status != ReadingStatus.Unknown &&
                                 status != ReadingStatus.FoundHexa8 &&
                                 status != ReadingStatus.FoundTet4 &&
                                 status != ReadingStatus.FoundWedge6)
                         {//Unknown
                             if (status == ReadingStatus.ReadingNodes) id = 0;
                             status = ReadingStatus.Unknown;
-                            Console.WriteLine("Status: Unknown");
+                            Debug.WriteLine("Status: Unknown");
                         }
 
                         //Action
@@ -108,7 +108,7 @@ namespace ConvectionDiffusionTest
 
                             //Print
                             string identation = id < 10 ? " " : "";
-                            Console.WriteLine("Node {0}{1}: ({2}, {3}, {4})", id, identation, coords[0].ToString("F2"), coords[1].ToString("F2"), coords[2].ToString("F2"));
+                            Debug.WriteLine("Node {0}{1}: ({2}, {3}, {4})", id, identation, coords[0].ToString("F2"), coords[1].ToString("F2"), coords[2].ToString("F2"));
                             //Increment id
                             id++;
                         }
@@ -127,11 +127,11 @@ namespace ConvectionDiffusionTest
                             ElementConnectivity.Add(key: id, value: new Tuple<CellType, Node[]>(CellType.Tet4, nodes));
 
                             //Print
-                            Console.WriteLine("Element {0}", id);
+                            Debug.WriteLine("Element {0}", id);
                             for (int i = 0; i < nodeIDs.Length; i++)
                             {
                                 string identation = nodeIDs[i] < 10 ? " " : "";
-                                Console.WriteLine("\tNode {0}{1}: ({2}, {3}, {4})", nodeIDs[i], identation, NodesDictionary[nodeIDs[i]].X.ToString("F5"), NodesDictionary[nodeIDs[i]].Y.ToString("F5"), NodesDictionary[nodeIDs[i]].Z.ToString("F5"));
+                                Debug.WriteLine("\tNode {0}{1}: ({2}, {3}, {4})", nodeIDs[i], identation, NodesDictionary[nodeIDs[i]].X.ToString("F5"), NodesDictionary[nodeIDs[i]].Y.ToString("F5"), NodesDictionary[nodeIDs[i]].Z.ToString("F5"));
                             }
                             //Increment id
                             id++;
@@ -153,11 +153,11 @@ namespace ConvectionDiffusionTest
                             ElementConnectivity.Add(key: id, value: new Tuple<CellType, Node[]>(CellType.Hexa8, nodes));
 
                             //Print
-                            Console.WriteLine("Element {0}", id);
+                            Debug.WriteLine("Element {0}", id);
                             for (int i = 0; i < nodeIDs.Length; i++)
                             {
                                 string identation = nodeIDs[i] < 10 ? " " : "";
-                                Console.WriteLine("\tNode {0}{1}: ({2}, {3}, {4})", nodeIDs[i], identation, NodesDictionary[nodeIDs[i]].X.ToString("F5"), NodesDictionary[nodeIDs[i]].Y.ToString("F5"), NodesDictionary[nodeIDs[i]].Z.ToString("F5"));
+                                Debug.WriteLine("\tNode {0}{1}: ({2}, {3}, {4})", nodeIDs[i], identation, NodesDictionary[nodeIDs[i]].X.ToString("F5"), NodesDictionary[nodeIDs[i]].Y.ToString("F5"), NodesDictionary[nodeIDs[i]].Z.ToString("F5"));
                             }
                             //Increment id
                             id++;
@@ -178,11 +178,11 @@ namespace ConvectionDiffusionTest
                             ElementConnectivity.Add(key: id, value: new Tuple<CellType, Node[]>(CellType.Hexa8, nodes));
 
                             //Print
-                            Console.WriteLine("Element {0}", id);
+                            Debug.WriteLine("Element {0}", id);
                             for (int i = 0; i < nodeIDs.Length; i++)
                             {
                                 string identation = nodeIDs[i] < 10 ? " " : "";
-                                Console.WriteLine("\tNode {0}{1}: ({2}, {3}, {4})", nodeIDs[i], identation, NodesDictionary[nodeIDs[i]].X.ToString("F2"), NodesDictionary[nodeIDs[i]].Y.ToString("F2"), NodesDictionary[nodeIDs[i]].Z.ToString("F2"));
+                                Debug.WriteLine("\tNode {0}{1}: ({2}, {3}, {4})", nodeIDs[i], identation, NodesDictionary[nodeIDs[i]].X.ToString("F2"), NodesDictionary[nodeIDs[i]].Y.ToString("F2"), NodesDictionary[nodeIDs[i]].Z.ToString("F2"));
                             }
                             //Increment id
                             id++;
@@ -195,10 +195,10 @@ namespace ConvectionDiffusionTest
             }
             catch (IOException e)
             {
-                Console.WriteLine("The file could not be read:");
-                Console.WriteLine(e.Message);
+                Debug.WriteLine("The file could not be read:");
+                Debug.WriteLine(e.Message);
             }
-            Console.WriteLine("Finished reading file\n\n");
+            Debug.WriteLine("Finished reading file\n\n");
         }
     }
 }
