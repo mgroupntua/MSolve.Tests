@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
+		<TargetFramework>net6.0</TargetFramework>
 
 		<IsPackable>false</IsPackable>
 	</PropertyGroup>
@@ -11,9 +11,9 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="MGroup.FEM.ConvectionDiffusion" Version="0.2.0-unstable.116" />
-		<PackageReference Include="MGroup.NumericalAnalyzers.Discretization" Version="0.2.0-unstable.56" />
-		<PackageReference Include="MGroup.Solvers" Version="0.2.0-unstable.18" />
+		<PackageReference Include="MGroup.FEM.ConvectionDiffusion" Version="0.2.0-unstable.119" />
+		<PackageReference Include="MGroup.NumericalAnalyzers.Discretization" Version="0.2.0-unstable.59" />
+		<PackageReference Include="MGroup.Solvers" Version="0.2.0-unstable.20" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
 		<PackageReference Include="Moq" Version="4.13.0" />
 		<PackageReference Include="OpenCover" Version="4.7.922" />
