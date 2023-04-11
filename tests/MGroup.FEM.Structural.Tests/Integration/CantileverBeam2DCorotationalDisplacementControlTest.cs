@@ -30,7 +30,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 			var solver = solverFactory.BuildSolver(algebraicModel);
 			var problem = new ProblemStructural(model, algebraicModel);
 
-			var displacementControlAnalyzerBuilder = new DisplacementControlAnalyzer.Builder(algebraicModel, solver, problem, numIncrements: 10);
+			var displacementControlAnalyzerBuilder = new DisplacementControlAnalyzer.Builder(algebraicModel, solver, problem, numIncrements: 10, false);
 			var displacementControlAnalyzer = displacementControlAnalyzerBuilder.Build();
 			var staticAnalyzer = new StaticAnalyzer(algebraicModel, problem, displacementControlAnalyzer);
 

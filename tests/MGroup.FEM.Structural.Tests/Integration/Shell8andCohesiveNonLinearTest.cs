@@ -25,7 +25,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 			Assert.True(Utilities.AreDisplacementsSame(Shell8andCohesiveNonLinearExample.GetExpectedDisplacements(), computedDisplacements, tolerance: 1E-10));
 		}
 
-		private static TotalDisplacementsPerIterationLog SolveModel(Model model)
+		private static IncrementalDisplacementsLog SolveModel(Model model)
 		{
 			var solverFactory = new SkylineSolver.Factory();
 			var algebraicModel = solverFactory.BuildAlgebraicModel(model);
@@ -46,8 +46,8 @@ namespace MGroup.FEM.Structural.Tests.Integration
 			watchDofs.Add((model.NodesDictionary[5], StructuralDof.RotationX));
 			watchDofs.Add((model.NodesDictionary[8], StructuralDof.TranslationX));
 			watchDofs.Add((model.NodesDictionary[8], StructuralDof.RotationY));
-			var log1 = new TotalDisplacementsPerIterationLog(watchDofs, algebraicModel);
-			loadControlAnalyzer.TotalDisplacementsPerIterationLog = log1;
+			var log1 = new IncrementalDisplacementsLog(watchDofs, algebraicModel);
+			loadControlAnalyzer.IncrementalDisplacementsLog = log1;
 
 			staticAnalyzer.Initialize();
 			staticAnalyzer.Solve();

@@ -47,8 +47,8 @@ namespace MGroup.FEM.Structural.Tests.Integration
 				(model.NodesDictionary[8], StructuralDof.TranslationX)
 			};
 
-			var log1 = new TotalDisplacementsPerIterationLog(watchDofs, algebraicModel);
-			loadControlAnalyzer.TotalDisplacementsPerIterationLog = log1;
+			var log1 = new IncrementalDisplacementsLog(watchDofs, algebraicModel);
+			loadControlAnalyzer.IncrementalDisplacementsLog = log1;
 
 			staticAnalyzer.Initialize();
 			staticAnalyzer.Solve();

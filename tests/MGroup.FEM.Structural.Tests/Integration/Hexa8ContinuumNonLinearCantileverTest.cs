@@ -20,11 +20,11 @@ namespace MGroup.FEM.Structural.Tests.Integration
 		private static void RunTest()
 		{
 			Model model = Hexa8ContinuumNonLinearCantileverExample.CreateModel();
-			TotalDisplacementsPerIterationLog computedDisplacements = SolveModel(model);
+			var computedDisplacements = SolveModel(model);
 			Assert.True(Utilities.AreDisplacementsSame(Hexa8ContinuumNonLinearCantileverExample.GetExpectedDisplacements(), computedDisplacements, tolerance: 1E-13));
 		}
 
-		private static TotalDisplacementsPerIterationLog SolveModel(Model model)
+		private static IncrementalDisplacementsLog SolveModel(Model model)
 		{
 			var solverFactory = new SkylineSolver.Factory();
 			var algebraicModel = solverFactory.BuildAlgebraicModel(model);
@@ -40,8 +40,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 			var loadControlAnalyzer = loadControlAnalyzerBuilder.Build();
 			var staticAnalyzer = new StaticAnalyzer(algebraicModel, problem, loadControlAnalyzer);
 
-
-			loadControlAnalyzer.TotalDisplacementsPerIterationLog = new TotalDisplacementsPerIterationLog(
+			loadControlAnalyzer.IncrementalDisplacementsLog = new IncrementalDisplacementsLog(
 				new List<(INode node, IDofType dof)>()
 				{
 					(model.NodesDictionary[5], StructuralDof.TranslationX),
@@ -55,7 +54,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 			staticAnalyzer.Initialize();
 			staticAnalyzer.Solve();
 
-			return loadControlAnalyzer.TotalDisplacementsPerIterationLog;
+			return loadControlAnalyzer.IncrementalDisplacementsLog;
 		}
 	}
 
