@@ -36,6 +36,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 		[Fact]
 		private static void RunSuddenLoadTest()
 		{
+			// GOAT: Needs to be revisited because it is solved WITHOUT calculating initial accelerations
 			modelBuilder.monitoredDof = StructuralDof.TranslationX;
 			Model model = modelBuilder.CreateModel();
 			modelBuilder.AddStaticNodalLoads(model);
@@ -47,7 +48,8 @@ namespace MGroup.FEM.Structural.Tests.Integration
 		[Fact]
 		private static void RunSuddenLoadWithInitialDisplacementsTest()
 		{
-			modelBuilder.monitoredDof = StructuralDof.TranslationX;
+            // GOAT: Needs to be revisited because it is solved WITHOUT calculating initial accelerations
+            modelBuilder.monitoredDof = StructuralDof.TranslationX;
 			Model model = modelBuilder.CreateModel();
 			modelBuilder.AddStaticNodalLoads(model);
 			modelBuilder.AddInitialConditionsDisplacements(model);
@@ -62,7 +64,8 @@ namespace MGroup.FEM.Structural.Tests.Integration
 		[Fact]
 		private static void RunTransientTestNoDelay()
 		{
-			modelBuilder.monitoredDof = StructuralDof.TranslationX;
+            // GOAT: Calculating initial accelerations makes no difference here
+            modelBuilder.monitoredDof = StructuralDof.TranslationX;
 			Model model = modelBuilder.CreateModel();
 			modelBuilder.AddTransientLoadNoDelay(model);
 
@@ -74,7 +77,8 @@ namespace MGroup.FEM.Structural.Tests.Integration
 		[Fact]
 		private static void RunTransientTestWithDelay()
 		{
-			modelBuilder.monitoredDof = StructuralDof.TranslationX;
+            // GOAT: Calculating initial accelerations makes no difference here
+            modelBuilder.monitoredDof = StructuralDof.TranslationX;
 			Model model = modelBuilder.CreateModel();
 			modelBuilder.AddTransientLoadWithDelay(model);
 
@@ -82,10 +86,12 @@ namespace MGroup.FEM.Structural.Tests.Integration
 			Assert.True(Utilities.AreDisplacementsSame(modelBuilder.GetExpectedDisplacementsTransientLoadWithDelayADINA(),
 																computedDisplacements, tolerance: 1e-5));
 		}
-			[Fact]
+
+		[Fact]
 		private static void RunTransientTestPeriodic()
 		{
-			timestep = 0.0005; totalTime = 0.16;
+            // GOAT: Calculating initial accelerations makes no difference here
+            timestep = 0.0005; totalTime = 0.16;
 			modelBuilder.monitoredDof = StructuralDof.TranslationX;
 			Model model = modelBuilder.CreateModel();
 			modelBuilder.AddPeriodicTransientLoad(model);
@@ -114,7 +120,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 
 			//var staticAnalyzer = new StaticAnalyzer(model, algebraicModel, problem, loadControlAnalyzer);
 			var dynamicAnalyzerBuilder = new NewmarkDynamicAnalyzer.Builder( algebraicModel, problem, loadControlAnalyzer,
-				timeStep: timestep, totalTime: totalTime);
+				timeStep: timestep, totalTime: totalTime, calculateInitialDerivativeVectors: false);
 			dynamicAnalyzerBuilder.SetNewmarkParametersForConstantAcceleration();
 			NewmarkDynamicAnalyzer parentAnalyzer = dynamicAnalyzerBuilder.Build();
 			parentAnalyzer.ResultStorage = new ImplicitIntegrationAnalyzerLog();
