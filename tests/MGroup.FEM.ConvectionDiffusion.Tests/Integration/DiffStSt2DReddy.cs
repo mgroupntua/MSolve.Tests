@@ -24,7 +24,7 @@ namespace MGroup.FEM.ConvectionDiffusion.Tests.Integration
             var solverFactory = new SkylineSolver.Factory();
             var algebraicModel = solverFactory.BuildAlgebraicModel(model);
             var solver = solverFactory.BuildSolver(algebraicModel);
-            var problem = new ProblemConvectionDiffusion(model, algebraicModel);
+            var problem = new ProblemConvectionDiffusion(model, algebraicModel, BoundaryConditionPrecedence.UnknownVariablePrecedence);
 
             var linearAnalyzer = new LinearAnalyzer(algebraicModel, solver, problem);
 
