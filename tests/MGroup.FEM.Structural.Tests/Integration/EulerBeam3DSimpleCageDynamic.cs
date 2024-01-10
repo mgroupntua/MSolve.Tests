@@ -28,7 +28,10 @@ namespace MGroup.FEM.Structural.Tests.Integration
 		{
 			var model = EulerBeam3DSimpleCage.CreateModel();
 			var _ = SolveSimpleModel(model);
-            var resultsAreEqualToStoredData = File.ReadLines(@"..\..\..\Data\ResultsOfTest.csv").SequenceEqual(File.ReadLines(@"..\..\..\Data\Results.csv"));
+
+            string path = (Environment.GetEnvironmentVariable("SYSTEM_DEFINITIONID") != null)
+                ? @"..\..\Data\" : @"..\..\..\Data\";
+            var resultsAreEqualToStoredData = File.ReadLines(path + "ResultsOfTest.csv").SequenceEqual(File.ReadLines(path + "Results.csv"));
             Assert.True(resultsAreEqualToStoredData);
         }
 
@@ -37,7 +40,10 @@ namespace MGroup.FEM.Structural.Tests.Integration
         {
             var model = EulerBeam3DRaceCarCage.CreateModel();
             var _ = SolveRaceModel(model);
-            var resultsAreEqualToStoredData = File.ReadLines(@"..\..\..\Data\RaceResultsOfTest.csv").SequenceEqual(File.ReadLines(@"..\..\..\Data\RaceResults.csv"));
+
+            string path = (Environment.GetEnvironmentVariable("SYSTEM_DEFINITIONID") != null)
+                ? @"..\..\Data\" : @"..\..\..\Data\";
+            var resultsAreEqualToStoredData = File.ReadLines(path + "RaceResultsOfTest.csv").SequenceEqual(File.ReadLines(path + "RaceResults.csv"));
             Assert.True(resultsAreEqualToStoredData);
         }
 
