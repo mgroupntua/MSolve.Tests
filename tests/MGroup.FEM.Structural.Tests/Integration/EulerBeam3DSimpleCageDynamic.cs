@@ -27,22 +27,25 @@ namespace MGroup.FEM.Structural.Tests.Integration
 		public void SimpleCage()
 		{
 			var model = EulerBeam3DSimpleCage.CreateModel();
-			var log = SolveSimpleModel(model);
-			Assert.True(true);
-		}
+			var _ = SolveSimpleModel(model);
+            var resultsAreEqualToStoredData = File.ReadLines(@"..\..\..\Data\ResultsOfTest.csv").SequenceEqual(File.ReadLines(@"..\..\..\Data\Results.csv"));
+            Assert.True(resultsAreEqualToStoredData);
+        }
 
         [Fact]
         public void RaceCage()
         {
             var model = EulerBeam3DRaceCarCage.CreateModel();
-            var log = SolveRaceModel(model);
-            Assert.True(true);
+            var _ = SolveRaceModel(model);
+            var resultsAreEqualToStoredData = File.ReadLines(@"..\..\..\Data\RaceResultsOfTest.csv").SequenceEqual(File.ReadLines(@"..\..\..\Data\RaceResults.csv"));
+            Assert.True(resultsAreEqualToStoredData);
         }
 
-        private static DOFSLog SolveRaceModel(Model model)
+        private static DOFSLog SolveRaceModel(Model model, bool writeDataToFile = false)
 		{
-			var headerData = File.ReadAllLines(@"D:\RacecarData\testRace.vtk");
-			var solverFactory = new SkylineSolver.Factory();
+            //var headerData = File.ReadAllLines(@"D:\RacecarData\testRace.vtk");
+            var headerData = File.ReadAllLines(@"..\..\..\Data\testRace.vtk");
+            var solverFactory = new SkylineSolver.Factory();
 			var algebraicModel = solverFactory.BuildAlgebraicModel(model);
 			var solver = solverFactory.BuildSolver(algebraicModel);
 			var problem = new ProblemStructural(model, algebraicModel);
@@ -104,7 +107,11 @@ namespace MGroup.FEM.Structural.Tests.Integration
                     $"{l.DOFValues[model.NodesDictionary[250], StructuralDof.TranslationX]} {l.DOFValues[model.NodesDictionary[250], StructuralDof.TranslationY]} {l.DOFValues[model.NodesDictionary[250], StructuralDof.TranslationZ]}",
                     $"{l.DOFValues[model.NodesDictionary[260], StructuralDof.TranslationX]} {l.DOFValues[model.NodesDictionary[260], StructuralDof.TranslationY]} {l.DOFValues[model.NodesDictionary[260], StructuralDof.TranslationZ]}",
                 };
-                File.WriteAllLines($@"D:\RacecarData\testRace_{i}.vtk", headerData.Concat(logLines));
+
+                if (writeDataToFile)
+                {
+                    File.WriteAllLines($@"..\..\..\Data\testRace_{i}.vtk", headerData.Concat(logLines));
+                }
             }
 
             var lines = new List<string>
@@ -116,22 +123,24 @@ namespace MGroup.FEM.Structural.Tests.Integration
                     $"{x.ID}-Z",
                 }).Aggregate(String.Empty, (a, v) => a + v.ToString() + ",")
             };
+
             lines.AddRange(parentAnalyzer.ResultStorage.Logs
-				.Select(x => (DOFSLog)x)
-				.Select(v => nodes.Where(x => x.ID % 10 == 0).SelectMany(x => new[]
-				{
-					v.DOFValues[x, StructuralDof.TranslationX],
-					v.DOFValues[x, StructuralDof.TranslationY],
-					v.DOFValues[x, StructuralDof.TranslationZ],
-				}).Aggregate(String.Empty, (a, v) => a + v.ToString() + ",")));
-			File.WriteAllLines(@"D:\RacecarData\RaceResults.csv", lines);
+                .Select(x => (DOFSLog)x)
+                .Select(v => nodes.Where(x => x.ID % 10 == 0).SelectMany(x => new[]
+                {
+                v.DOFValues[x, StructuralDof.TranslationX],
+                v.DOFValues[x, StructuralDof.TranslationY],
+                v.DOFValues[x, StructuralDof.TranslationZ],
+                }).Aggregate(String.Empty, (a, v) => a + v.ToString() + ",")));
+            File.WriteAllLines(@"..\..\..\Data\RaceResultsOfTest.csv", lines);
 
             return null;
 		}
 
-        private static DOFSLog SolveSimpleModel(Model model)
+        private static DOFSLog SolveSimpleModel(Model model, bool writeToFile = false)
         {
-            var headerData = File.ReadAllLines(@"D:\RacecarData\testChassis.vtk");
+            //var headerData = File.ReadAllLines(@"D:\RacecarData\testChassis.vtk");
+            var headerData = File.ReadAllLines(@"..\..\..\Data\testChassis.vtk");
             var solverFactory = new SkylineSolver.Factory();
             var algebraicModel = solverFactory.BuildAlgebraicModel(model);
             var solver = solverFactory.BuildSolver(algebraicModel);
@@ -177,7 +186,11 @@ namespace MGroup.FEM.Structural.Tests.Integration
                     "0 0 0",
                     $"{l.DOFValues[model.NodesDictionary[90], StructuralDof.TranslationX]} {l.DOFValues[model.NodesDictionary[90], StructuralDof.TranslationY]} {l.DOFValues[model.NodesDictionary[90], StructuralDof.TranslationZ]}",
                 };
-                File.WriteAllLines($@"D:\RacecarData\testChassis_{i}.vtk", headerData.Concat(logLines));
+
+                if (writeToFile)
+                {
+                    File.WriteAllLines($@"..\..\..\Data\testChassis_{i}.vtk", headerData.Concat(logLines));
+                }
             }
 
             var lines = new List<string>
@@ -189,15 +202,16 @@ namespace MGroup.FEM.Structural.Tests.Integration
                     $"{x.ID}-Z",
                 }).Aggregate(String.Empty, (a, v) => a + v.ToString() + ",")
             };
+
             lines.AddRange(parentAnalyzer.ResultStorage.Logs
                 .Select(x => (DOFSLog)x)
                 .Select(v => nodes.Where(x => x.ID % 10 == 0).SelectMany(x => new[]
                 {
-                    v.DOFValues[x, StructuralDof.TranslationX],
-                    v.DOFValues[x, StructuralDof.TranslationY],
-                    v.DOFValues[x, StructuralDof.TranslationZ],
+                v.DOFValues[x, StructuralDof.TranslationX],
+                v.DOFValues[x, StructuralDof.TranslationY],
+                v.DOFValues[x, StructuralDof.TranslationZ],
                 }).Aggregate(String.Empty, (a, v) => a + v.ToString() + ",")));
-            File.WriteAllLines(@"D:\RacecarData\Results.csv", lines);
+            File.WriteAllLines(@"..\..\..\Data\ResultsOfTest.csv", lines);
 
             return null;
         }

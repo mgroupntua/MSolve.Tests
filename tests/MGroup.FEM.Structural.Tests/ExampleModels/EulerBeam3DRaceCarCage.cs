@@ -36,7 +36,8 @@ namespace MGroup.FEM.Structural.Tests.ExampleModels
 
         public static Model CreateModel()
         {
-            sensorData = CreateDictionaryOfSensorData(@"D:\RacecarData\Goat.csv");
+            //sensorData = CreateDictionaryOfSensorData(@"D:\RacecarData\Goat.csv");
+            sensorData = CreateDictionaryOfSensorData(@"..\..\..\Data\SensorData.csv");
             timeOffset = sensorData.Select(x => x.Key).Where(x => x > 0).Min() * 0.001;
             // Units: Length: cm, Stress: KN/cm2, Density: ton/cm3, Mass (of data array below): kg
             var modelData = new[]

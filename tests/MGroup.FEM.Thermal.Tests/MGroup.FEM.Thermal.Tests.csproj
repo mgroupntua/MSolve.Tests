@@ -12,7 +12,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="MGroup.FEM.Thermal" Version="0.2.0-unstable.131" />
-    <PackageReference Include="MGroup.NumericalAnalyzers.Discretization" Version="0.2.0-unstable.61" />
+    <PackageReference Include="MGroup.NumericalAnalyzers.Discretization" Version="0.2.0-unstable.62" />
     <PackageReference Include="MGroup.Solvers" Version="0.2.0-unstable.27" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
     <PackageReference Include="Moq" Version="4.13.0" />
