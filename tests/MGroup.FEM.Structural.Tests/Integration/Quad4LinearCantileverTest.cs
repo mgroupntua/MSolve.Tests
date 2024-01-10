@@ -9,6 +9,7 @@ using MGroup.NumericalAnalyzers.Logging;
 using MGroup.Solvers.Iterative;
 using MGroup.FEM.Structural.Tests.ExampleModels;
 using Xunit;
+using MGroup.LinearAlgebra.Iterative.Termination.Iterations;
 
 namespace MGroup.FEM.Structural.Tests.Integration
 {

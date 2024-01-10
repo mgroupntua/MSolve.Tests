@@ -11,9 +11,8 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="MGroup.FEM.ConvectionDiffusion" Version="0.2.0-unstable.129" />
-		<PackageReference Include="MGroup.NumericalAnalyzers.Discretization" Version="0.2.0-unstable.60" />
-		<PackageReference Include="MGroup.Solvers" Version="0.2.0-unstable.21" />
+		<PackageReference Include="MGroup.NumericalAnalyzers.Discretization" Version="0.2.0-unstable.61" />
+		<PackageReference Include="MGroup.Solvers" Version="0.2.0-unstable.27" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
 		<PackageReference Include="Moq" Version="4.13.0" />
 		<PackageReference Include="OpenCover" Version="4.7.922" />
@@ -29,6 +28,10 @@
 		<None Remove="MGroup.FEM.Thermal" />
 		<None Remove="MGroup.NumericalAnalyzers.Discretization" />
 		<None Remove="MGroup.Solvers" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\Constitutive\src\MGroup.Constitutive.ConvectionDiffusion\MGroup.Constitutive.ConvectionDiffusion.csproj" />
+	  <ProjectReference Include="..\..\..\FEM\src\MGroup.FEM.ConvectionDiffusion\MGroup.FEM.ConvectionDiffusion.csproj" />
 	</ItemGroup>
 
 </Project>
