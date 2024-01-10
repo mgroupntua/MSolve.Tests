@@ -44,7 +44,9 @@ namespace MGroup.FEM.Structural.Tests.Integration
         private static DOFSLog SolveRaceModel(Model model, bool writeDataToFile = false)
 		{
             //var headerData = File.ReadAllLines(@"D:\RacecarData\testRace.vtk");
-            var headerData = File.ReadAllLines(@"..\..\..\Data\testRace.vtk");
+            string path = (Environment.GetEnvironmentVariable("SYSTEM_DEFINITIONID") != null)
+                ? @"..\..\Data\" : @"..\..\..\Data\";
+            var headerData = File.ReadAllLines(path + "testRace.vtk");
             var solverFactory = new SkylineSolver.Factory();
 			var algebraicModel = solverFactory.BuildAlgebraicModel(model);
 			var solver = solverFactory.BuildSolver(algebraicModel);
@@ -110,7 +112,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 
                 if (writeDataToFile)
                 {
-                    File.WriteAllLines($@"..\..\..\Data\testRace_{i}.vtk", headerData.Concat(logLines));
+                    File.WriteAllLines($"{path}testRace_{i}.vtk", headerData.Concat(logLines));
                 }
             }
 
@@ -132,7 +134,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
                 v.DOFValues[x, StructuralDof.TranslationY],
                 v.DOFValues[x, StructuralDof.TranslationZ],
                 }).Aggregate(String.Empty, (a, v) => a + v.ToString() + ",")));
-            File.WriteAllLines(@"..\..\..\Data\RaceResultsOfTest.csv", lines);
+            File.WriteAllLines(path + "RaceResultsOfTest.csv", lines);
 
             return null;
 		}
@@ -140,7 +142,9 @@ namespace MGroup.FEM.Structural.Tests.Integration
         private static DOFSLog SolveSimpleModel(Model model, bool writeToFile = false)
         {
             //var headerData = File.ReadAllLines(@"D:\RacecarData\testChassis.vtk");
-            var headerData = File.ReadAllLines(@"..\..\..\Data\testChassis.vtk");
+            string path = (Environment.GetEnvironmentVariable("SYSTEM_DEFINITIONID") != null)
+                ? @"..\..\Data\" : @"..\..\..\Data\";
+            var headerData = File.ReadAllLines(path + "testChassis.vtk");
             var solverFactory = new SkylineSolver.Factory();
             var algebraicModel = solverFactory.BuildAlgebraicModel(model);
             var solver = solverFactory.BuildSolver(algebraicModel);
@@ -189,7 +193,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 
                 if (writeToFile)
                 {
-                    File.WriteAllLines($@"..\..\..\Data\testChassis_{i}.vtk", headerData.Concat(logLines));
+                    File.WriteAllLines($"{path}testChassis_{i}.vtk", headerData.Concat(logLines));
                 }
             }
 
@@ -211,7 +215,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
                 v.DOFValues[x, StructuralDof.TranslationY],
                 v.DOFValues[x, StructuralDof.TranslationZ],
                 }).Aggregate(String.Empty, (a, v) => a + v.ToString() + ",")));
-            File.WriteAllLines(@"..\..\..\Data\ResultsOfTest.csv", lines);
+            File.WriteAllLines(path + "ResultsOfTest.csv", lines);
 
             return null;
         }
