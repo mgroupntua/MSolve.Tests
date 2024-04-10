@@ -27,14 +27,14 @@ namespace MGroup.FEM.Structural.Tests.Integration
 
 		private static DOFSLog SolveModel(Model model)
 		{
-			var pcgBuilder = new PcgAlgorithm.Builder
+			var pcgFactory = new PcgAlgorithm.Factory
 			{
 				ResidualTolerance = 1E-6,
 				MaxIterationsProvider = new PercentageMaxIterationsProvider(maxIterationsOverMatrixOrder: 0.5)
 			};
 
 			var solverFactory = new PcgSolver.Factory();
-			solverFactory.PcgAlgorithm = pcgBuilder.Build();
+			solverFactory.PcgAlgorithm = pcgFactory.Build();
 			var algebraicModel = solverFactory.BuildAlgebraicModel(model);
 			var solver = solverFactory.BuildSolver(algebraicModel);
 			var problem = new ProblemStructural(model, algebraicModel);
