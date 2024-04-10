@@ -47,7 +47,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 			linearnalyzer.LogFactory = new LinearAnalyzerLogFactory(watchDofs, algebraicModel);
 
 			staticAnalyzer.Initialize();
-			staticAnalyzer.Solve();
+			staticAnalyzer.Solve(); https://pkgs.dev.azure.com/mgroupntua/MSolve/_packaging/MGroup/nuget/v3/index.json
 
 			return (DOFSLog)linearnalyzer.Logs[0];
 		}

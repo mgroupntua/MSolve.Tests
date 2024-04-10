@@ -33,6 +33,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
                 ? @"..\..\Data\" : @"..\..\..\Data\";
             var resultsAreEqualToStoredData = File.ReadLines(path + "ResultsOfTest.csv").SequenceEqual(File.ReadLines(path + "Results.csv"));
             Assert.True(resultsAreEqualToStoredData);
+            File.Delete(path + "ResultsOfTest.csv");
         }
 
         [Fact]
@@ -45,9 +46,10 @@ namespace MGroup.FEM.Structural.Tests.Integration
                 ? @"..\..\Data\" : @"..\..\..\Data\";
             var resultsAreEqualToStoredData = File.ReadLines(path + "RaceResultsOfTest.csv").SequenceEqual(File.ReadLines(path + "RaceResults.csv"));
             Assert.True(resultsAreEqualToStoredData);
-        }
+            File.Delete(path + "RaceResultsOfTest.csv");
+		}
 
-        private static DOFSLog SolveRaceModel(Model model, bool writeDataToFile = false)
+		private static DOFSLog SolveRaceModel(Model model, bool writeDataToFile = false)
 		{
             //var headerData = File.ReadAllLines(@"D:\RacecarData\testRace.vtk");
             string path = (Environment.GetEnvironmentVariable("SYSTEM_DEFINITIONID") != null)
