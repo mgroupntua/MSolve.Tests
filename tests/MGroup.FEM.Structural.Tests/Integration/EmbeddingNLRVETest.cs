@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MGroup.MSolve.DataStructures;
 using MGroup.MSolve.Discretization.Dofs;
 using MGroup.MSolve.Discretization.Entities;
 using MGroup.Constitutive.Structural;
@@ -28,7 +27,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 
 		private static IncrementalDisplacementsLog SolveModel(Model model)
 		{
-			var solverFactory = new SkylineSolver.Factory();
+			var solverFactory = new LdlSkylineSolver.Factory();
 			var algebraicModel = solverFactory.BuildAlgebraicModel(model);
 			var solver = solverFactory.BuildSolver(algebraicModel);
 			var problem = new ProblemStructural(model, algebraicModel);

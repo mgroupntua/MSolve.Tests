@@ -104,7 +104,10 @@ namespace MGroup.FEM.Structural.Tests.Integration
 
 		private static double[] SolveModelDynamic(Model model)
 		{
-			var solverFactory = new SkylineSolver.Factory() { DofOrderer = new DofOrderer(new NodeMajorDofOrderingStrategy(), new NodeMajorReordering()) };
+			var solverFactory = new LdlSkylineSolver.Factory() 
+			{ 
+				DofOrderer = new DofOrderer(new NodeMajorDofOrderingStrategy(), new NodeMajorReordering()) 
+			};
 			var algebraicModel = solverFactory.BuildAlgebraicModel(model);
 			var solver = solverFactory.BuildSolver(algebraicModel);
 			var problem = new ProblemStructural(model, algebraicModel);

@@ -11,10 +11,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="MGroup.FEM.Structural" Version="0.2.0-unstable.134" />
-	<PackageReference Include="MGroup.NumericalAnalyzers.Discretization" Version="0.2.0-unstable.65" />
-	<PackageReference Include="MGroup.Solvers" Version="0.2.0-unstable.35" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+    <PackageReference Include="MGroup.FEM.Structural" Version="0.2.0-unstable.137" />
+	<PackageReference Include="MGroup.NumericalAnalyzers.Discretization" Version="0.2.0-unstable.68" />
+	<PackageReference Include="MGroup.Solvers" Version="0.2.0-unstable.99" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Include="Moq" Version="4.13.0" />
     <PackageReference Include="OpenCover" Version="4.7.922" />
     <PackageReference Include="xunit" Version="2.4.1" />
