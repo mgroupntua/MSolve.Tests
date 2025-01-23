@@ -55,7 +55,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
             string path = (Environment.GetEnvironmentVariable("SYSTEM_DEFINITIONID") != null)
                 ? @"..\..\Data\" : @"..\..\..\Data\";
             var headerData = File.ReadAllLines(path + "testRace.vtk");
-            var solverFactory = new SkylineSolver.Factory();
+            var solverFactory = new LdlSkylineSolver.Factory();
 			var algebraicModel = solverFactory.BuildAlgebraicModel(model);
 			var solver = solverFactory.BuildSolver(algebraicModel);
 			var problem = new ProblemStructural(model, algebraicModel);
@@ -153,7 +153,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
             string path = (Environment.GetEnvironmentVariable("SYSTEM_DEFINITIONID") != null)
                 ? @"..\..\Data\" : @"..\..\..\Data\";
             var headerData = File.ReadAllLines(path + "testChassis.vtk");
-            var solverFactory = new SkylineSolver.Factory();
+            var solverFactory = new LdlSkylineSolver.Factory();
             var algebraicModel = solverFactory.BuildAlgebraicModel(model);
             var solver = solverFactory.BuildSolver(algebraicModel);
             var problem = new ProblemStructural(model, algebraicModel);

@@ -21,7 +21,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
 
 		private static Vector SolveModel(Model model)
 		{
-			var solverFactory = new SkylineSolver.Factory();
+			var solverFactory = new LdlSkylineSolver.Factory();
 			var algebraicModel = solverFactory.BuildAlgebraicModel(model);
 			var solver = solverFactory.BuildSolver(algebraicModel);
 			var problem = new ProblemStructural(model, algebraicModel);
