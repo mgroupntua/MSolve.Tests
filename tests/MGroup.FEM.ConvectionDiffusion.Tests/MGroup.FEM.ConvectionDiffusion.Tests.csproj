@@ -2,8 +2,13 @@
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-
 		<IsPackable>false</IsPackable>
+	</PropertyGroup>
+
+	<!-- Import the global props file for development on local machines-->
+	<Import Project="..\..\..\Directory.Build.props" Condition="Exists('..\..\..\Directory.Build.props')" />
+	<PropertyGroup>
+		<UseLocalMSolveProjects Condition="'$(UseLocalMSolveProjects)' == ''">false</UseLocalMSolveProjects>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -11,9 +16,6 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="MGroup.FEM.ConvectionDiffusion" Version="0.2.0-unstable.137" />
-		<PackageReference Include="MGroup.NumericalAnalyzers.Discretization" Version="0.2.0-unstable.68" />
-		<PackageReference Include="MGroup.Solvers" Version="0.2.0-unstable.99" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
 		<PackageReference Include="Moq" Version="4.13.0" />
 		<PackageReference Include="OpenCover" Version="4.7.922" />
@@ -23,6 +25,19 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
+
+	<ItemGroup Condition="'$(UseLocalMSolveProjects)' == 'false'">
+		<PackageReference Include="MGroup.FEM.ConvectionDiffusion" Version="0.2.0-unstable.137" />
+		<PackageReference Include="MGroup.NumericalAnalyzers.Discretization" Version="0.2.0-unstable.68" />
+		<PackageReference Include="MGroup.Solvers" Version="0.2.0-unstable.99" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(UseLocalMSolveProjects)' == 'true'">
+		<ProjectReference Include="..\..\..\FEM\src\MGroup.FEM.ConvectionDiffusion\MGroup.FEM.ConvectionDiffusion.csproj" />
+		<ProjectReference Include="..\..\..\NumericalAnalyzers\src\MGroup.NumericalAnalyzers.Discretization\MGroup.NumericalAnalyzers.Discretization.csproj" />
+		<ProjectReference Include="..\..\..\Solvers\src\MGroup.Solvers\MGroup.Solvers.csproj" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<None Remove="MGroup.LinearAlgebra" />
 		<None Remove="ExampleModels\" />

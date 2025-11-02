@@ -115,7 +115,7 @@ namespace MGroup.FEM.Thermal.Tests.Integration
 			staticAnalyzer.Initialize();
 			staticAnalyzer.Solve();
 
-			return solver.LinearSystem.Solution.SingleVector;
+			return solver.LinearSystem.Solution;
 		}
 
 		private static bool CompareResults(IVectorView solution)
