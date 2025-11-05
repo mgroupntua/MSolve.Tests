@@ -122,9 +122,9 @@ namespace MGroup.FEM.Structural.Tests.Integration
                 {
                     File.WriteAllLines($"{path}testRace_{i}.vtk", headerData.Concat(logLines));
                 }
-            }
+			}
 
-            var lines = new List<string>
+			var lines = new List<string>
             {
                 nodes.Where(x => x.ID % 10 == 0).SelectMany(x => new[]
                 {
@@ -225,7 +225,7 @@ namespace MGroup.FEM.Structural.Tests.Integration
                 }).Aggregate(String.Empty, (a, v) => a + v.ToString() + ",")));
             File.WriteAllLines(path + "ResultsOfTest.csv", lines);
 
-            return null;
+			return null;
         }
     }
 }

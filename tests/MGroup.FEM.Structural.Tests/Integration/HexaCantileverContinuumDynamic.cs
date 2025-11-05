@@ -1,24 +1,20 @@
+using System;
 using System.Collections.Generic;
+using Xunit;
+
 using MGroup.Constitutive.Structural;
 using MGroup.MSolve.Discretization.Entities;
-using MGroup.MSolve.DataStructures;
 using MGroup.MSolve.Discretization.Dofs;
-using MGroup.MSolve.Solution;
-using MGroup.NumericalAnalyzers;
 using MGroup.NumericalAnalyzers.Logging;
 using MGroup.NumericalAnalyzers.Discretization.NonLinear;
 using MGroup.Solvers.Direct;
-using MGroup.FEM.Structural.Tests.ExampleModels;
 using MGroup.FEM.Structural.Tests.Commons;
-using Xunit;
-using modelBuilder = MGroup.FEM.Structural.Tests.ExampleModels.Hexa8ContinuumNonLinearCantileverDynamicExample;
-using System.Linq;
-using MGroup.Constitutive.Structural.BoundaryConditions;
 using MGroup.MSolve.Discretization.BoundaryConditions;
 using MGroup.Solvers.DofOrdering;
 using MGroup.Solvers.DofOrdering.Reordering;
 using MGroup.NumericalAnalyzers.Dynamic;
-using System;
+
+using modelBuilder = MGroup.FEM.Structural.Tests.ExampleModels.Hexa8ContinuumNonLinearCantileverDynamicExample;
 
 namespace MGroup.FEM.Structural.Tests.Integration
 {

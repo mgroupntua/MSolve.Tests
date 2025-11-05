@@ -3,7 +3,6 @@ using MGroup.Constitutive.Structural;
 using MGroup.MSolve.Discretization.Entities;
 using MGroup.MSolve.DataStructures;
 using MGroup.MSolve.Discretization.Dofs;
-using MGroup.MSolve.Solution;
 using MGroup.NumericalAnalyzers;
 using MGroup.NumericalAnalyzers.Logging;
 using MGroup.NumericalAnalyzers.Discretization.NonLinear;

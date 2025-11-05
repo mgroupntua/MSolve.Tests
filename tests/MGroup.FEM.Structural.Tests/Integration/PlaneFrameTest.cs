@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using MGroup.MSolve.Discretization.Entities;
 using MGroup.MSolve.Discretization.Dofs;
 using MGroup.Constitutive.Structural;
-using MGroup.MSolve.Solution;
 using MGroup.NumericalAnalyzers;
 using MGroup.NumericalAnalyzers.Logging;
 using MGroup.NumericalAnalyzers.Discretization.NonLinear;
