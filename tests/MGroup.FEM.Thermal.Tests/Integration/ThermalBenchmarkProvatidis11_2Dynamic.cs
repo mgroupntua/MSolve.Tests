@@ -34,7 +34,7 @@ namespace MGroup.FEM.Thermal.Tests.Integration
 			dynamicAnalyzer.Initialize();
 			dynamicAnalyzer.Solve();
 
-			return solver.LinearSystem.Solution.SingleVector;
+			return solver.LinearSystem.Solution;
 		}
 	}
 }

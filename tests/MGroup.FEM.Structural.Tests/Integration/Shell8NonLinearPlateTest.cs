@@ -7,7 +7,6 @@ using MGroup.MSolve.Discretization.Dofs;
 using MGroup.FEM.Structural.Shells;
 using MGroup.Constitutive.Structural;
 using MGroup.Constitutive.Structural.Shells;
-using MGroup.MSolve.Solution;
 using MGroup.NumericalAnalyzers;
 using MGroup.NumericalAnalyzers.Logging;
 using MGroup.Solvers.Direct;

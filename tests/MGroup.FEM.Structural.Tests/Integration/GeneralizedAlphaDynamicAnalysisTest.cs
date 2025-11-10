@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using MGroup.NumericalAnalyzers.Dynamic;
 using MGroup.MSolve.Discretization.Entities;
 using MGroup.NumericalAnalyzers.Logging;
-using MGroup.MSolve.Solution;
 using MGroup.Solvers.Direct;
 using Xunit;
 using MGroup.Constitutive.Structural;
