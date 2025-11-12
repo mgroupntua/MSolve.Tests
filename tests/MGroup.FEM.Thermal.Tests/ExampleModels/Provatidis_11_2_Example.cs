@@ -73,7 +73,7 @@ namespace MGroup.FEM.Thermal.Tests.ExampleModels
 			return model;
 		}
 
-		public static bool CompareResults(IVectorView solution)
+		public static bool CompareResults(IReadOnlyVector solution)
 		{
 			var comparer = new ValueComparer(1E-8);
 			if (solution.Length != numFreeDofs) return false;
