@@ -15,11 +15,11 @@ namespace MGroup.FEM.Thermal.Tests.Integration
 		private static void RunTest()
 		{
 			Model model = Provatidis_11_2_Example.CreateModel();
-			IVectorView solution = SolveModel(model);
+			IReadOnlyVector solution = SolveModel(model);
 			Assert.True(Provatidis_11_2_Example.CompareResults(solution));
 		}
 
-		private static IVectorView SolveModel(Model model)
+		private static IReadOnlyVector SolveModel(Model model)
 		{
 			var solverFactory = new LdlSkylineSolver.Factory();
 			var algebraicModel = solverFactory.BuildAlgebraicModel(model);

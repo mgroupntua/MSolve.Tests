@@ -101,7 +101,7 @@ namespace MGroup.FEM.Thermal.Tests.Integration
 			return model;
 		}
 
-		private static IVectorView SolveModel(Model model)
+		private static IReadOnlyVector SolveModel(Model model)
 		{
 			var solverFactory = new LdlSkylineSolver.Factory();
 			var algebraicModel = solverFactory.BuildAlgebraicModel(model);
@@ -118,7 +118,7 @@ namespace MGroup.FEM.Thermal.Tests.Integration
 			return solver.LinearSystem.Solution;
 		}
 
-		private static bool CompareResults(IVectorView solution)
+		private static bool CompareResults(IReadOnlyVector solution)
 		{
 			const int numFreeDofs = 18;
 			if (solution.Length != numFreeDofs)
