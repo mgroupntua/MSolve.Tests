@@ -27,9 +27,9 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(UseLocalMSolveProjects)' == 'false'">
-		<PackageReference Include="MGroup.FEM.ConvectionDiffusion" Version="0.2.0-unstable.150" />
-		<PackageReference Include="MGroup.NumericalAnalyzers.Discretization" Version="0.2.0-unstable.77" />
-		<PackageReference Include="MGroup.Solvers" Version="0.2.0-unstable.113" />
+		<PackageReference Include="MGroup.FEM.ConvectionDiffusion" Version="0.2.0-unstable.152" />
+		<PackageReference Include="MGroup.NumericalAnalyzers.Discretization" Version="0.2.0-unstable.83" />
+		<PackageReference Include="MGroup.Solvers" Version="0.2.0-unstable.115" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(UseLocalMSolveProjects)' == 'true'">
